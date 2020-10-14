@@ -1,5 +1,6 @@
 package com.practice.springng.blog.controller;
 
+import com.practice.springng.blog.dto.user.LoginRequest;
 import com.practice.springng.blog.dto.user.RegistrationRequest;
 import com.practice.springng.blog.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,12 @@ import javax.validation.Valid;
 @RequestMapping("/api/auth")
 public class AuthController {
     private final AuthService authService;
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public String login(@RequestBody @Valid LoginRequest loginRequest) {
+        return authService.login(loginRequest);
+    }
 
     @PostMapping("sign-up")
     @ResponseStatus(HttpStatus.NO_CONTENT)
