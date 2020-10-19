@@ -3,6 +3,7 @@ package com.practice.springng.blog.service.impl;
 import com.practice.springng.blog.dto.user.LoginRequest;
 import com.practice.springng.blog.dto.user.RegistrationRequest;
 import com.practice.springng.blog.exception.DuplicatedEmailException;
+import com.practice.springng.blog.exception.NoLoggedInUserException;
 import com.practice.springng.blog.model.User;
 import com.practice.springng.blog.repository.UserRepository;
 import com.practice.springng.blog.security.JwtProvider;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -52,5 +55,16 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.findUserByEmail(email).isPresent()) {
             throw new DuplicatedEmailException(String.format("Email [%s] already exists", email));
         }
+    }
+
+    @Override
+    public Optional<User> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(Objects.isNull(authentication)) {
+            throw new NoLoggedInUserException("No logged in user");
+        }
+        String email = ((org.springframework.security.core.userdetails.User)
+                authentication.getPrincipal()).getUsername();
+        return userRepository.findUserByEmail(email);
     }
 }
