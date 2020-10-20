@@ -6,11 +6,9 @@ import com.practice.springng.blog.exception.UserNotFoundException;
 import com.practice.springng.blog.model.Post;
 import com.practice.springng.blog.model.User;
 import com.practice.springng.blog.repository.PostRepository;
-import com.practice.springng.blog.repository.UserRepository;
 import com.practice.springng.blog.service.AuthService;
 import com.practice.springng.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -53,14 +51,19 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void create(PostDto postDto) {
+        Post post = createEntityFromDto(postDto);
+        postRepository.save(post);
+    }
+
+    private Post createEntityFromDto(PostDto dto) {
         Post post = new Post();
-        post.setTitle(postDto.getTitle());
-        post.setContent(postDto.getContent());
+        post.setTitle(dto.getTitle());
+        post.setContent(dto.getContent());
         post.setCreatedOn(Instant.now());
         post.setUpdatedOn(Instant.now());
         User user = authService.getCurrentUser()
                 .orElseThrow(() -> new UserNotFoundException("No user found to associate with post"));
         post.setUser(user);
-        postRepository.save(post);
+        return post;
     }
 }
