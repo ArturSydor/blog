@@ -13,21 +13,25 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class WebAppExceptionHandler {
     @ExceptionHandler(DuplicatedEmailException.class)
     public ResponseEntity<?> handleDuplicatedEmail(DuplicatedEmailException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return buildBadRequest(ex.getMessage());
     }
 
     @ExceptionHandler(NoLoggedInUserException.class)
     public ResponseEntity<?> handleNoLoggedInUser(NoLoggedInUserException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return buildBadRequest(ex.getMessage());
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFound(UserNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return buildBadRequest(ex.getMessage());
     }
 
     @ExceptionHandler(PostNotFoundException.class)
     public ResponseEntity<?> handlePostNotFound(PostNotFoundException ex) {
-        return  new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return  buildBadRequest(ex.getMessage());
+    }
+
+    private ResponseEntity<?> buildBadRequest(String message) {
+        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
     }
 }
