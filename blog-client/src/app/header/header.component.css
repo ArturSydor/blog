@@ -1,0 +1,16 @@
+.header {
+  padding: 5px 20px;
+  background: cornflowerblue;
+}
+
+.title {
+  color: azure;
+  text-decoration: none;
+}
+
+.login,.register {
+  float: right;
+  color: azure;
+  text-decoration: none;
+  padding: 15px;
+}
