@@ -1,5 +1,6 @@
 package com.practice.springng.blog.service.impl;
 
+import com.practice.springng.blog.dto.user.AuthenticationResponse;
 import com.practice.springng.blog.dto.user.LoginRequest;
 import com.practice.springng.blog.dto.user.RegistrationRequest;
 import com.practice.springng.blog.exception.DuplicatedEmailException;
@@ -40,11 +41,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginRequest loginRequest) {
+    public AuthenticationResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtProvider.generateToken(authentication);
+        return new AuthenticationResponse(jwtProvider.generateToken(authentication), loginRequest.getEmail());
     }
 
     private String encryptPassword(String password) {

@@ -1,5 +1,6 @@
 package com.practice.springng.blog.controller;
 
+import com.practice.springng.blog.dto.user.AuthenticationResponse;
 import com.practice.springng.blog.dto.user.LoginRequest;
 import com.practice.springng.blog.dto.user.RegistrationRequest;
 import com.practice.springng.blog.service.AuthService;
@@ -17,7 +18,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public String login(@RequestBody @Valid LoginRequest loginRequest) {
+    public AuthenticationResponse login(@RequestBody @Valid LoginRequest loginRequest) {
         return authService.login(loginRequest);
     }
 
