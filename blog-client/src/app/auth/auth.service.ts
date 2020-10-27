@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class AuthService {
-  private url = 'http://localhost:4200/api/auth';
+  private url = 'http://localhost:8080/api/auth/';
 
   constructor(private httpClient: HttpClient) { }
 
