@@ -1,0 +1,21 @@
+<div class="add-post-content">
+  <div class="container">
+    <div class="element-wrapper">
+      <h3 class="new-post-title" >Create new post</h3>
+    </div>
+    <form [formGroup]="addPostForm" (ngSubmit)="addPost()" >
+      <div class="form-group">
+        <label class="post-title" for="postTitle">Title</label>
+        <input [formControlName]="'title'" type="text" class="form-control" placeholder="Title" id="postTitle">
+      </div>
+      <div>
+        <label class="post-content" for="postContent">Content</label>
+        <editor [formControlName]="'content'" id="postContent" [init]="{plugins: 'link'}"></editor>
+      </div>
+      <div class="element-wrapper">
+        <button type="submit" class="btn btn-primary">Post</button>
+        <a href="/" class="btn btn-primary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
