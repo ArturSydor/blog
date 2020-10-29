@@ -15,3 +15,10 @@ html {
   font-size: 20px;
   text-rendering: optimizeLegibility;
 }
+
+.form-auth {
+  margin-top: 20px;
+  margin-left: 20%;
+  margin-right: 20%;
+  text-align: center;
+}

@@ -4,17 +4,38 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { RegisterSuccessComponent } from './auth/register-success/register-success.component';
+import { LoginComponent } from './auth/login/login.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {RouterModule} from "@angular/router";
+import {NgxWebstorageModule} from "ngx-webstorage";
+import { HomeComponent } from './home/home.component';
+import { AddPostComponent } from './add-post/add-post.component';
+import {EditorModule} from "@tinymce/tinymce-angular";
+import {HttpClientInterceptor} from "./http-client-interceptor";
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    RegisterComponent,
+    RegisterSuccessComponent,
+    LoginComponent,
+    HomeComponent,
+    AddPostComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgxWebstorageModule.forRoot(),
+    EditorModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: HttpClientInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

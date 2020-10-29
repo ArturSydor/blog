@@ -4,9 +4,12 @@
       <div class="col-md-6">
         <h1><a href="" class="title">Blog</a></h1>
       </div>
-      <div class="col-md-6">
-        <a href="" class="login btn btn-default">Login</a>
-        <a href="" class="register btn btn-default">Register</a>
+      <div class="col-md-3" *ngIf="isVisible()">
+        <a href="/add-post" class="new-post">Create post</a>
+      </div>
+      <div class="col-md-3">
+        <a href="/login" class="login btn btn-default">Login</a>
+        <a href="/register" class="register btn btn-default">Register</a>
       </div>
     </div>
   </div>

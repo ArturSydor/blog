@@ -1,5 +1,6 @@
 package com.practice.springng.blog.security;
 
+import com.practice.springng.blog.dto.user.AuthenticationResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

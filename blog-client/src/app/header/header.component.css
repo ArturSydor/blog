@@ -14,3 +14,9 @@
   text-decoration: none;
   padding: 15px;
 }
+
+.new-post {
+  float: right;
+  color: azure;
+  padding-top: 15px;
+}
