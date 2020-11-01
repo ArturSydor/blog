@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormControlName, FormGroup} from "@angular/forms";
 import {PostPayload} from "./post-payload";
-import {AddPostService} from "../add-post.service";
+import {PostService} from "../post.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -14,7 +14,7 @@ export class AddPostComponent implements OnInit {
   addPostForm: FormGroup;
   postPayLoad: PostPayload;
 
-  constructor(private addPostService: AddPostService, private router: Router) {
+  constructor(private addPostService: PostService, private router: Router) {
     this.addPostForm = new FormGroup({
       title: new FormControl(''),
       content: new FormControl('')
@@ -22,7 +22,8 @@ export class AddPostComponent implements OnInit {
     this.postPayLoad = {
       id: '',
       title: '',
-      content: ''
+      content: '',
+      username: ''
     }
   }
 
