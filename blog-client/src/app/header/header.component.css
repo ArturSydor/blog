@@ -15,7 +15,7 @@
   padding: 15px;
 }
 
-.new-post {
+.new-post, .logout {
   float: right;
   color: azure;
   padding-top: 15px;

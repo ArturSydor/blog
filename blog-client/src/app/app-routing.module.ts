@@ -6,6 +6,7 @@ import {RegisterSuccessComponent} from "./auth/register-success/register-success
 import {HomeComponent} from "./home/home.component";
 import {AddPostComponent} from "./add-post/add-post.component";
 import {PostComponent} from "./post/post.component";
+import {AuthGuard} from "./auth.guard";
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -14,7 +15,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register-success', component: RegisterSuccessComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'add-post', component: AddPostComponent}
+  {path: 'add-post', component: AddPostComponent, canActivate : [AuthGuard]}
 ];
 
 @NgModule({

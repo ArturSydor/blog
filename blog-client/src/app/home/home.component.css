@@ -1,0 +1,8 @@
+.blog-overview {
+  width: 100%;
+  margin: 20px;
+}
+
+.blog-author {
+  display: flex;
+}
