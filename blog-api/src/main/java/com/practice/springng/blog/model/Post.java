@@ -1,14 +1,15 @@
 package com.practice.springng.blog.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = {"id", "title", "content", "createdOn"})
 @Getter
 @Setter
 @Entity
