@@ -5,6 +5,7 @@ import com.practice.springng.blog.dto.user.LoginRequest;
 import com.practice.springng.blog.dto.user.RegistrationRequest;
 import com.practice.springng.blog.exception.DuplicatedEmailException;
 import com.practice.springng.blog.exception.NoLoggedInUserException;
+import com.practice.springng.blog.helpers.EntityFactory;
 import com.practice.springng.blog.model.User;
 import com.practice.springng.blog.repository.UserRepository;
 import com.practice.springng.blog.security.JwtProvider;
@@ -62,7 +63,7 @@ class AuthServiceImplTest {
     @Test
     @DisplayName("Sign up finished successfully")
     void signUpSuccess() {
-        RegistrationRequest registrationRequest = new RegistrationRequest("email", "username", "password");
+        RegistrationRequest registrationRequest = EntityFactory.registrationRequest;
         Mockito.when(userRepository.findUserByEmail(Mockito.anyString())).thenReturn(Optional.empty());
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(new User());
         Mockito.when(passwordEncoder.encode(Mockito.any(CharSequence.class))).thenReturn("encoded password");
@@ -73,8 +74,8 @@ class AuthServiceImplTest {
     @Test
     @DisplayName("Sign up with not existing user")
     void signUpUserNotExists() {
-        User  user = new User(1L, "username", "password", "email", Collections.emptyList());
-        RegistrationRequest registrationRequest = new RegistrationRequest("email", "username", "password");
+        User  user = EntityFactory.user;
+        RegistrationRequest registrationRequest = EntityFactory.registrationRequest;
         Mockito.when(userRepository.findUserByEmail(Mockito.anyString())).thenReturn(Optional.of(user));
         assertThatThrownBy(() -> authService.signUp(registrationRequest))
                 .isExactlyInstanceOf(DuplicatedEmailException.class)
@@ -84,8 +85,8 @@ class AuthServiceImplTest {
     @Test
     @DisplayName("Login finished successfully")
     void loginSuccess() {
-        LoginRequest loginRequest = new LoginRequest("email", "password");
-        Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
+        LoginRequest loginRequest = EntityFactory.loginRequest;
+        Authentication authentication = EntityFactory.authentication;
         Mockito.when(authenticationManager.authenticate(Mockito.any(Authentication.class)))
                 .thenReturn(authentication);
         Mockito.when(jwtProvider.generateToken(Mockito.any(Authentication.class))).thenReturn("token");
@@ -98,12 +99,11 @@ class AuthServiceImplTest {
     @Test
     @DisplayName("Successfully get currently logged in user")
     void getCurrentUserSuccess() {
-        User  expectedUser = new User(1L, "username", "password", "email", Collections.emptyList());
+        User  expectedUser = EntityFactory.user;
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
         Mockito.when(userRepository.findUserByEmail(Mockito.anyString())).thenReturn(Optional.of(expectedUser));
         Mockito.when(authentication.getPrincipal())
-                .thenReturn(new org.springframework.security.core.userdetails.User(expectedUser.getEmail(),
-                        expectedUser.getPassword(), Collections.emptyList()));
+                .thenReturn(EntityFactory.userdeails);
         SecurityContextHolder.setContext(securityContext);
         Optional<User> actual = authService.getCurrentUser();
         assertEquals(expectedUser, actual.orElseGet(User::new));
@@ -122,11 +122,9 @@ class AuthServiceImplTest {
     @Test
     @DisplayName("User not found by email from security context")
     void getCurrentUserNotFound() {
-        User  expectedUser = new User(1L, "username", "password", "email", Collections.emptyList());
         Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
         Mockito.when(authentication.getPrincipal())
-                .thenReturn(new org.springframework.security.core.userdetails.User(expectedUser.getEmail(),
-                        expectedUser.getPassword(), Collections.emptyList()));
+                .thenReturn(EntityFactory.userdeails);
         Mockito.when(userRepository.findUserByEmail(Mockito.anyString())).thenReturn(Optional.empty());
         SecurityContextHolder.setContext(securityContext);
         Optional<User> actual = authService.getCurrentUser();

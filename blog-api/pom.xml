@@ -112,8 +112,10 @@
             <scope>runtime</scope>
             <version>0.10.5</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

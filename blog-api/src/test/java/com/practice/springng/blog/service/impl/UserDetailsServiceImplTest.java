@@ -1,5 +1,6 @@
 package com.practice.springng.blog.service.impl;
 
+import com.practice.springng.blog.helpers.EntityFactory;
 import com.practice.springng.blog.model.User;
 import com.practice.springng.blog.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,7 +35,7 @@ class UserDetailsServiceImplTest {
 
     @Test
     void loadUserByUsernameSuccess() {
-        User  user = new User(1L, "username", "password", "email", Collections.emptyList());
+        User  user = EntityFactory.user;
         Mockito.when(userRepository.findUserByEmail(Mockito.anyString())).thenReturn(Optional.of(user));
         UserDetails expected = new org.springframework.security.core.userdetails.User(user.getEmail(),
                         user.getPassword(), true, true, true,

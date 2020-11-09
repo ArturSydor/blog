@@ -3,6 +3,7 @@ package com.practice.springng.blog.service.impl;
 import com.practice.springng.blog.dto.post.PostDto;
 import com.practice.springng.blog.exception.PostNotFoundException;
 import com.practice.springng.blog.exception.UserNotFoundException;
+import com.practice.springng.blog.helpers.EntityFactory;
 import com.practice.springng.blog.model.Post;
 import com.practice.springng.blog.model.User;
 import com.practice.springng.blog.repository.PostRepository;
@@ -16,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.swing.text.html.parser.Entity;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
@@ -38,12 +40,10 @@ public class PostServiceImplTest {
 
     private PostDto expectedPostDto;
 
-    private final User user = new User(1L, "username", "password", "email", Collections.emptyList());
-
     @BeforeEach
     public void init() {
         postService = new PostServiceImpl(authService, postRepository);
-        post = new Post(1L, "Title", "Content", Instant.now(), Instant.now(), user);
+        post = EntityFactory.post;
         expectedPostDto = mapDtoToEntity(post);
     }
 
@@ -89,7 +89,7 @@ public class PostServiceImplTest {
     @Test
     @DisplayName("Save new post for current loged in user")
     void createSuccess() {
-        Mockito.when(authService.getCurrentUser()).thenReturn(Optional.of(user));
+        Mockito.when(authService.getCurrentUser()).thenReturn(Optional.of(EntityFactory.user));
         Mockito.when(postRepository.save(Mockito.any(Post.class))).thenReturn(post);
         postService.create(expectedPostDto);
         Mockito.verify(postRepository, Mockito.times(1)).save(Mockito.any(Post.class));
