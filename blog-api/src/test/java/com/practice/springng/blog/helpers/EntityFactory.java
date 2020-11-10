@@ -20,4 +20,8 @@ public final class EntityFactory {
     public static final LoginRequest loginRequest = new LoginRequest("email", "password");
     public static final Authentication authentication = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
 
+    public static Post setUpPost(String title, String content, User user){
+        return new Post(null, title, content, Instant.now(), Instant.now(), user);
+    }
+
 }
