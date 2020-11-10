@@ -14,6 +14,7 @@ import javax.validation.ConstraintViolationException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -47,14 +48,14 @@ public class PostRepositoryTestEmbedded {
         User user = userRepository.save(EntityFactory.user);
         Post postToSave = EntityFactory.setUpPost("test", "test", user);
         Post savedPost = postRepository.save(postToSave);
-        Post post = postRepository.findById(savedPost.getId()).orElseGet(() -> null);
-        assertNotNull(post);
+        Optional<Post> post = postRepository.findById(savedPost.getId());
+        assertTrue(post.isPresent());
     }
 
     @Test
     void findByNotExistingIdFail() {
-        Post post = postRepository.findById(0L).orElseGet(() -> null);
-        assertNull(post);
+        Optional<Post> post = postRepository.findById(0L);
+        assertFalse(post.isPresent());
     }
 
     @Test
@@ -75,7 +76,7 @@ public class PostRepositoryTestEmbedded {
         savedPost.setTitle("updated");
         postRepository.save(savedPost);
         Post updated = postRepository.findById(savedPost.getId()).orElseGet(Post::new);
-        assertEquals("updated", updated.getTitle());
+        assertEquals(savedPost.getTitle(), updated.getTitle());
     }
 
     @Test
@@ -84,7 +85,7 @@ public class PostRepositoryTestEmbedded {
         Post postToSave = EntityFactory.setUpPost("test", "test", user);
         Post savedPost = postRepository.save(postToSave);
         postRepository.delete(savedPost);
-        Post post = postRepository.findById(savedPost.getId()).orElseGet(() -> null);
-        assertNull(post);
+        Optional<Post> post = postRepository.findById(savedPost.getId());
+        assertFalse(post.isPresent());
     }
 }

@@ -24,4 +24,8 @@ public final class EntityFactory {
         return new Post(null, title, content, Instant.now(), Instant.now(), user);
     }
 
+    public static User setUpUser(String userName, String email, String password) {
+        return new User(null, userName, password, email, Collections.emptyList());
+    }
+
 }
